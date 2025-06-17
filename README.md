@@ -1,6 +1,6 @@
 # Blog API
 
-A modern RESTful API built with Laravel for managing blog content, featuring a robust backend with Vite for frontend asset compilation.
+A modern RESTful API built with Laravel for managing blog content, featuring a robust backend with Vite for frontend asset compilation and JWT authentication.
 
 ## 🚀 Features
 
@@ -9,15 +9,30 @@ A modern RESTful API built with Laravel for managing blog content, featuring a r
 - **Vite Integration** - Modern frontend tooling for fast development
 - **Database Migrations** - Version-controlled database schema
 - **Seeding Support** - Easy database population for testing
-- **Authentication Ready** - Built-in support for API authentication & JWT Auth
+- **JWT Authentication** - Secure API authentication with JSON Web Tokens
+- **CORS Support** - Cross-Origin Resource Sharing enabled
 
 ## 📋 Requirements
 
 - PHP >= 8.2
 - Composer
-- Node.js >= 16.x
-- npm 
-- MySQL
+- MySQL/PostgreSQL/SQLite
+
+## 📦 Dependencies
+
+### PHP Dependencies (Composer)
+
+#### Core Framework
+- **laravel/framework** - The Laravel framework core
+- **laravel/tinker** - Powerful REPL for Laravel
+
+#### Authentication & Security
+- **tymon/jwt-auth** - JSON Web Token authentication for Laravel
+
+#### Build Tools
+- **vite** - Next generation frontend tooling
+- **laravel-vite-plugin** - Laravel plugin for Vite
+
 
 ## 🛠️ Installation & Setup
 
@@ -34,11 +49,6 @@ cd blogapi
 composer install
 ```
 
-### 3. Install Node.js Dependencies
-
-```bash
-npm install
-```
 
 ### 4. Environment Configuration
 
@@ -49,12 +59,27 @@ cp .env.example .env
 Edit the `.env` file and configure your database and other settings:
 
 ```env
+# Application
+APP_NAME="Blog API"
+APP_ENV=local
+APP_KEY=
+APP_DEBUG=true
+APP_URL=http://localhost:8000
+
+# Database
 DB_CONNECTION=mysql
 DB_HOST=127.0.0.1
 DB_PORT=3306
 DB_DATABASE=blogapi
 DB_USERNAME=your_username
 DB_PASSWORD=your_password
+
+# JWT Configuration
+JWT_SECRET=bGnZVEkfiVHCUpufMqZxsTf6vo2TGTWZyngocR6a5TX1eCKMAopt4fORiwnNSe7r
+JWT_TTL=60
+
+# CORS
+CORS_ALLOWED_ORIGINS=*
 ```
 
 ### 5. Generate Application Key
@@ -63,13 +88,19 @@ DB_PASSWORD=your_password
 php artisan key:generate
 ```
 
-### 6. Run Database Migrations
+### 6. Generate JWT Secret
+
+```bash
+php artisan jwt:secret
+```
+
+### 7. Run Database Migrations
 
 ```bash
 php artisan migrate
 ```
 
-### 7. Seed Database (Optional)
+### 8. Seed Database (Optional)
 
 ```bash
 php artisan db:seed
@@ -85,16 +116,6 @@ php artisan db:seed
 php artisan serve
 ```
 
-The API will be available at `http://localhost:8000`
-
-### Production Build
-
-#### Build Frontend Assets
-
-```bash
-npm run build
-```
-
 #### Optimize Laravel for Production
 
 ```bash
@@ -103,135 +124,60 @@ php artisan route:cache
 php artisan view:cache
 ```
 
-## 📚 API Documentation
+## 🔌 API Documentation
 
 ### Base URL
 ```
-http://localhost:8000/api
+http://localhost:8000/api/v1
+```
+
+### Authentication
+
+This API uses JWT (JSON Web Tokens) for authentication. Include the token in the Authorization header:
+
+```
+Authorization: Bearer {your-jwt-token}
 ```
 
 ### Available Endpoints
 
-| Method | Endpoint | Description |
-|--------|----------|-------------|
-| GET    | `/posts` | Get all blog posts |
-| GET    | `/posts/{id}` | Get specific post |
-| POST   | `/posts` | Create new post |
-| PUT    | `/posts/{id}` | Update post |
-| DELETE | `/posts/{id}` | Delete post |
+#### Authentication Endpoints
+
+| Method | Endpoint | Description | Auth Required |
+|--------|----------|-------------|---------------|
+| POST   | `/auth/register` | Register a new user | No |
+| POST   | `/auth/login` | Login user | No |
+| POST   | `/auth/logout` | Logout user | Yes |
+| GET    | `/auth/me` | Get authenticated user | Yes |
+
+#### Blog Post Endpoints
+
+| Method | Endpoint | Description | Auth Required |
+|--------|----------|-------------|---------------|
+| GET    | `/posts` | Get all blog posts | No |
+| GET    | `/posts/{id}` | Get specific post | No |
+| POST   | `/posts` | Create new post | Yes |
+| PUT    | `/posts/{id}` | Update post | Yes |
+| DELETE | `/posts/{id}` | Delete post | Yes |
 
 
-## 🧪 Testing
 
-Run the test suite:
+### Status Codes
 
-```bash
-php artisan test
-```
-
-## 📁 Project Structure
-
-```
-blogapi/
-├── app/                    # Application logic
-├── bootstrap/              # Bootstrap files
-├── config/                 # Configuration files
-├── database/               # Migrations, seeders, factories
-├── public/                 # Public assets
-├── resources/              # Views, frontend assets
-├── routes/                 # Route definitions
-├── storage/                # Logs, cache, uploads
-├── tests/                  # Test files
-├── vendor/                 # Composer dependencies
-├── node_modules/           # Node.js dependencies (ignored)
-├── .env                    # Environment variables (ignored)
-├── composer.json           # PHP dependencies
-├── package.json            # Node.js dependencies
-├── vite.config.js          # Vite configuration
-└── README.md              # This file
-```
-
-## 🔧 Available Commands
-
-### Laravel Artisan Commands
-
-```bash
-# Create new controller
-php artisan make:controller PostController
-
-# Create new model
-php artisan make:model Post
-
-# Create new migration
-php artisan make:migration create_posts_table
-
-# Create new seeder
-php artisan make:seeder PostSeeder
-
-# Clear application cache
-php artisan cache:clear
-
-# Clear configuration cache
-php artisan config:clear
-```
-
-### NPM Scripts
-
-```bash
-# Start development server
-npm run dev
-
-# Build for production
-npm run build
-
-# Preview production build
-npm run preview
-```
-
-## 🤝 Contributing
-
-1. Fork the repository
-2. Create your feature branch (`git checkout -b feature/amazing-feature`)
-3. Commit your changes (`git commit -m 'Add some amazing feature'`)
-4. Push to the branch (`git push origin feature/amazing-feature`)
-5. Open a Pull Request
-
-## 📝 License
-
-This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
-
-## 🆘 Support
-
-If you encounter any issues or have questions:
-
-1. Check the [Laravel Documentation](https://laravel.com/docs)
-2. Check the [Vite Documentation](https://vitejs.dev/)
-3. Open an issue in this repository
-
-## 🔄 Development Workflow
-
-### Daily Development
-
-1. **Start your development environment:**
-   ```bash
-   php artisan serve
-   npm run dev
-   ```
-
-2. **Make your changes** to the codebase
-
-3. **Test your changes:**
-   ```bash
-   php artisan test
-   ```
-
-4. **Commit and push** your changes
+- `200` - OK
+- `201` - Created
+- `400` - Bad Request
+- `401` - Unauthorized
+- `403` - Forbidden
+- `404` - Not Found
+- `422` - Unprocessable Entity (Validation Error)
+- `500` - Internal Server Error
 
 ### Database Changes
 
 1. **Create migration:**
    ```bash
-   php artisan make:migration add_column_to_posts_table
+   php artisan make:migration create_posts_table
    ```
 
 2. **Run migration:**
@@ -243,6 +189,39 @@ If you encounter any issues or have questions:
    ```bash
    php artisan migrate:rollback
    ```
+
+### Adding New API Endpoints
+
+1. **Create controller:**
+   ```bash
+   php artisan make:controller Api/PostController --api
+   ```
+
+2. **Add routes in `routes/api.php`**
+
+3. **Create tests:**
+   ```bash
+   php artisan make:test PostApiTest
+   ```
+
+## 🚀 Deployment
+
+### Environment Setup
+
+1. Set `APP_ENV=production`
+2. Set `APP_DEBUG=false`
+3. Configure production database
+4. Set up proper JWT secrets
+
+### Optimization Commands
+
+```bash
+composer install --optimize-autoloader --no-dev
+php artisan config:cache
+php artisan route:cache
+php artisan view:cache
+```
+
 ---
 
 **Built with ❤️ using Laravel & Vite**
