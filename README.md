@@ -75,7 +75,7 @@ DB_USERNAME=your_username
 DB_PASSWORD=your_password
 
 # JWT Configuration
-JWT_SECRET=bGnZVEkfiVHCUpufMqZxsTf6vo2TGTWZyngocR6a5TX1eCKMAopt4fORiwnNSe7r
+JWT_SECRET=your_jwt_secret
 JWT_TTL=60
 
 # CORS
