@@ -56,8 +56,8 @@ class AuthController extends Controller
 
     public function profile(Request $request)
     {
-        $user = auth("api")->user();
-
+        $user = $request->user("api");
+        
         return successResponse(data: $user->toResource(UserResource::class));
     }
 

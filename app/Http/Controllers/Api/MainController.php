@@ -33,7 +33,7 @@ class MainController extends Controller
         return successResponse(data: $comments->toResourceCollection(CommentResource::class));
     }
 
-    public function replies(Request $request, string $post, string $comment)
+    public function replies(Request $request, string $post,string $commentId)
     {
         $post = Post::where("slug", $post)->first();
 
@@ -41,7 +41,7 @@ class MainController extends Controller
             return failResponse(__("messages.error.notFound"));
         }
 
-        $comment = $post->comments()->where("id", $comment)->first();
+        $comment = $post->comments()->where("id", $commentId)->first();
 
         if (!$comment) {
             return failResponse(__("messages.error.notFound"));
@@ -49,6 +49,6 @@ class MainController extends Controller
 
         $replies = $comment->replies()->orderByDesc("created_at")->get();
 
-        return successResponse(data: $replies->toResourceCollection(ReplyResource::class));
+        return successResponse(data:$replies->toResourceCollection(ReplyResource::class));
     }
 }

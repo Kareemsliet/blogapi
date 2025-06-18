@@ -8,15 +8,16 @@ A modern RESTful API built with Laravel for managing blog content, featuring a r
 - **Laravel Framework** - Built on Laravel's solid foundation
 - **Vite Integration** - Modern frontend tooling for fast development
 - **Database Migrations** - Version-controlled database schema
-- **Seeding Support** - Easy database population for testing
 - **JWT Authentication** - Secure API authentication with JSON Web Tokens
 - **CORS Support** - Cross-Origin Resource Sharing enabled
+- **Media Uploads** - Easily manage media files
+- **Translation Support** - Translatable and localization
 
 ## 📋 Requirements
 
 - PHP >= 8.2
 - Composer
-- MySQL/PostgreSQL/SQLite
+- MySQL >= 8.0
 
 ## 📦 Dependencies
 
@@ -78,6 +79,8 @@ DB_PASSWORD=your_password
 JWT_SECRET=your_jwt_secret
 JWT_TTL=60
 
+FILESYSTEM_DISK=public
+
 # CORS
 CORS_ALLOWED_ORIGINS=*
 ```
@@ -105,6 +108,12 @@ php artisan migrate
 ```bash
 php artisan db:seed
 ```
+### 9.make storage link
+
+```bash
+php artisan storage:link
+```
+
 
 ## 🚀 Running the Application
 
@@ -154,24 +163,12 @@ Authorization: Bearer {your-jwt-token}
 
 | Method | Endpoint | Description | Auth Required |
 |--------|----------|-------------|---------------|
-| GET    | `/posts` | Get all blog posts | No |
-| GET    | `/posts/{id}` | Get specific post | No |
+| GET    | `/posts` | Get all blog posts | yes |
+| GET    | `/posts/{id}` | Get specific post | yes |
 | POST   | `/posts` | Create new post | Yes |
 | PUT    | `/posts/{id}` | Update post | Yes |
 | DELETE | `/posts/{id}` | Delete post | Yes |
 
-
-
-### Status Codes
-
-- `200` - OK
-- `201` - Created
-- `400` - Bad Request
-- `401` - Unauthorized
-- `403` - Forbidden
-- `404` - Not Found
-- `422` - Unprocessable Entity (Validation Error)
-- `500` - Internal Server Error
 
 ### Database Changes
 
@@ -212,6 +209,7 @@ Authorization: Bearer {your-jwt-token}
 2. Set `APP_DEBUG=false`
 3. Configure production database
 4. Set up proper JWT secrets
+5. set up proper file system
 
 ### Optimization Commands
 

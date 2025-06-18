@@ -16,11 +16,11 @@ class ImageResource extends JsonResource
     public function toArray(Request $request): array
     {
         return [
+            "id" => $this->uuid,
             "file_name" => $this->file_name,
             "name" => $this->name,
-            "uuid" => $this->uuid,
             "extension" => $this->extension,
-            "size" => $this->size,
+            "size" => $this->human_readable_size,
             "url" => ImageService::make($this->original_url)->toBase64(),
         ];
     }
