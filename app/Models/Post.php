@@ -23,7 +23,6 @@ class Post extends Model implements HasMedia
         return SlugOptions::create()
             ->generateSlugsFrom([$this, 'getEnglishTitle'])
             ->usingLanguage("en")
-            ->doNotGenerateSlugsOnUpdate()
             ->saveSlugsTo('slug');
     }
 

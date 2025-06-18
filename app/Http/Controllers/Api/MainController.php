@@ -11,6 +11,12 @@ use Illuminate\Http\Request;
 
 class MainController extends Controller
 {
+    public $user;
+
+    public function __construct(){
+        $this->user = auth("api")->user();
+    }
+
     public function allPosts(Request $request)
     {
         $limit = $request->query("limit", 10);
@@ -33,7 +39,7 @@ class MainController extends Controller
         return successResponse(data: $comments->toResourceCollection(CommentResource::class));
     }
 
-    public function replies(Request $request, string $post,string $commentId)
+    public function replies(Request $request, string $post, string $commentId)
     {
         $post = Post::where("slug", $post)->first();
 
@@ -49,6 +55,70 @@ class MainController extends Controller
 
         $replies = $comment->replies()->orderByDesc("created_at")->get();
 
-        return successResponse(data:$replies->toResourceCollection(ReplyResource::class));
+        return successResponse(data: $replies->toResourceCollection(ReplyResource::class));
     }
+
+    public function addComent(Request $request, string $post)
+    {
+        $post = Post::where("slug", $post)->first();
+
+        if (!$post) {
+            return failResponse(__("messages.error.notFound"));
+        }
+
+        $validation = validator($request->only(["content"]), [
+            "content" => "required|string",
+        ]);
+
+        if ($validation->fails()) {
+            return failResponse($validation->errors()->first());
+        }
+
+        $validation->validated();
+
+        $request->merge(["post_id" => $post->id]);
+
+        $data = $request->only(["content", "post_id"]);
+
+        $comment = $this->user->comments()->create($data);
+
+        return successResponse(__("messages.success.create"), $comment->toResource(CommentResource::class));
+    }
+
+    /**
+     * Update the specified resource in storage.
+     */
+    public function reply(Request $request, string $post, string $comment)
+    {
+        $post = Post::where("slug", $post)->first();
+
+        if (!$post) {
+            return failResponse(__("messages.error.notFound"));
+        }
+
+        $comment = $post->comments()->where("id", $comment)->first();
+
+        if (!$comment) {
+            return failResponse(__("messages.error.notFound"));
+        }
+
+        $validation = validator($request->only(["content"]), [
+            "content" => "required|string",
+        ]);
+
+        if ($validation->fails()) {
+            return failResponse($validation->errors()->first());
+        }
+
+        $validation->validated();
+
+        $request->merge(["comment_id" => $comment->id]);
+
+        $data = $request->only(["content", "comment_id"]);
+
+        $reply = $this->user->replies()->create($data);
+
+        return successResponse(__("messages.success.create"),$reply->toResource(ReplyResource::class));
+    }
+
 }

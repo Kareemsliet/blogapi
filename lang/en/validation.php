@@ -194,16 +194,16 @@ return [
     */
 
     'attributes' => [
-        "title.ar" => "العنوان بالعربية",
-        "title.en" => "العنوان بالانجليزية",
-        "description.ar" => "الوصف بالعربية",
-        "description.en" => "الوصف بالانجليزية",
-        "images" => "الصور",
-        "images.*" => "الصور",
-        "email" => "البريد الإلكتروني",
-        "password" => "كلمة المرور",
-        "name" => "الاسم",
-        "content" => "المحتوى",
+        "title.ar" => "Title in Arabic",
+        "title.en" => "Title in English",
+        "description.ar" => "Description in Arabic",
+        "description.en" => "Description in English",
+        "images" => "Images",
+        "images.*" => "Images",
+        "email" => "Email",
+        "password" => "Password",
+        "name" => "Name",
+        "content" => "Content",
     ],
 
 ];

@@ -5,9 +5,7 @@ namespace App\Http\Controllers\Api;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Api\Auth\LoginRequest;
 use App\Http\Requests\Api\Auth\RegisterRequest;
-use App\Http\Resources\UserResource;
 use App\Models\User;
-use Illuminate\Http\Request;
 use Tymon\JWTAuth\Facades\JWTAuth;
 
 class AuthController extends Controller
@@ -52,13 +50,6 @@ class AuthController extends Controller
         auth("api")->logout();
 
         return successResponse(__("auth.logout"));
-    }
-
-    public function profile(Request $request)
-    {
-        $user = $request->user("api");
-        
-        return successResponse(data: $user->toResource(UserResource::class));
     }
 
 }

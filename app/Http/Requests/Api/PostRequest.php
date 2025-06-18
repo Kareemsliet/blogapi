@@ -34,7 +34,7 @@ class PostRequest extends FormRequest
             "description.ar" => "required|string|max:350",
             "description.en" => "required|string|max:350",
             "images" => "nullable|array|min:1",
-            "images.*" => "nullable|mimes:jpg,png,jpeg,gif,svg|max:10480",
+            "images.*" => "required|mimes:jpg,png,jpeg,gif,svg|max:10480",
         ];
     }
 
