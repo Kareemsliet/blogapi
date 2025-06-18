@@ -1,12 +1,11 @@
 # Blog API
 
-A modern RESTful API built with Laravel for managing blog content, featuring a robust backend with Vite for frontend asset compilation and JWT authentication.
+A modern RESTful API built with Laravel for managing blog content and JWT authentication.
 
 ## 🚀 Features
 
 - **RESTful API Architecture** - Clean and intuitive API endpoints
 - **Laravel Framework** - Built on Laravel's solid foundation
-- **Vite Integration** - Modern frontend tooling for fast development
 - **Database Migrations** - Version-controlled database schema
 - **JWT Authentication** - Secure API authentication with JSON Web Tokens
 - **CORS Support** - Cross-Origin Resource Sharing enabled
@@ -29,10 +28,6 @@ A modern RESTful API built with Laravel for managing blog content, featuring a r
 
 #### Authentication & Security
 - **tymon/jwt-auth** - JSON Web Token authentication for Laravel
-
-#### Build Tools
-- **vite** - Next generation frontend tooling
-- **laravel-vite-plugin** - Laravel plugin for Vite
 
 
 ## 🛠️ Installation & Setup
@@ -222,4 +217,4 @@ php artisan view:cache
 
 ---
 
-**Built with ❤️ using Laravel & Vite**
+**Built with ❤️ using Laravel**
